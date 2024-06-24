@@ -1,11 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class ExtratoService {
   constructor(@Inject('EXTRATO_SERVICE') private rabbitClient: ClientProxy) {}
 
-  getExtrato(id: string) {
-    this.rabbitClient.send('get-extrato', id)
+  async getExtrato(id: string) {
+    const result = this.rabbitClient.send({ cmd: 'get-extrato' }, { id });
+    return await lastValueFrom(result);
   }
 }
