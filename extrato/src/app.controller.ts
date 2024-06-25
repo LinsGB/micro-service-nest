@@ -7,8 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @MessagePattern({ cmd: 'get-extrato' })
-  getHello(@Payload() payload: { id: string }): string {
-    console.log('EXTRATO: ', payload.id);
-    return 'EXTRATO';
+  async getTransactions(@Payload() payload: { id: string }) {
+    return await this.appService.getTransactions(payload.id);
   }
 }

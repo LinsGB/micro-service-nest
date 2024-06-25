@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { Transacoes } from '@prisma/client';
 import { PrismaConectorService } from './prisma-conector/prisma-conector.service';
-import { Transacoes, Prisma } from '@prisma/client';
 
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaConectorService) {}
 
-  async getTransactions(params: {
-    where?: Prisma.TransacoesWhereInput;
-  }): Promise<Transacoes[]> {
-    const { where } = params;
+  async getTransactions(saldoId: string): Promise<Transacoes[]> {
     return this.prisma.transacoes.findMany({
-      where,
+      where: {
+        saldoId: +saldoId,
+      },
     });
   }
 }
