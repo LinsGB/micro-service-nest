@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TransactionService } from './transaction.service';
+import { TransactionController } from './transaction.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { PrismaConectorService } from './prisma-conector/prisma-conector.service';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'SALDO_SERVICE',
+        name: 'TRANSACTION_SERVICE',
         transport: Transport.RMQ,
         options: {
           urls: ['amqp://localhost:5672'],
@@ -17,7 +16,7 @@ import { PrismaConectorService } from './prisma-conector/prisma-conector.service
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService, PrismaConectorService],
+  controllers: [TransactionController],
+  providers: [TransactionService],
 })
-export class AppModule {}
+export class TransactionModule {}

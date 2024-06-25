@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Saldo {
+  id     Int     @default(autoincrement()) @id
+  valor  Int
+  vercao Int     @unique()
+  transacoes  Transacoes[]
+}
+
+model Transacoes {
+  id        Int      @default(autoincrement()) @id
+  tipo      String
+  valor     Int
+  author    Saldo?    @relation(fields: [saldoId], references: [id])
+  saldoId   Int?
+}

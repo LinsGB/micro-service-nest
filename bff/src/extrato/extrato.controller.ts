@@ -10,6 +10,6 @@ export class ExtratoController {
     @Param('id')
     id: string,
   ) {
-    return this.extratoService.getExtrato(id)
+    return this.extratoService.getExtrato(id);
   }
 }

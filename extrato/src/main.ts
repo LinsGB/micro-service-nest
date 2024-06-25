@@ -14,5 +14,6 @@ async function bootstrap() {
     },
   );
   app.listen();
+  console.log('EXTRATO');
 }
 bootstrap();

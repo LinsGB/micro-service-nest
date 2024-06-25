@@ -7,8 +7,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @MessagePattern({ cmd: 'get-extrato' })
-  getHello(@Payload() payload: {id: string}): string {
-    console.log('EXTRATO: ', payload.id)
-    return 'EXTRATO'
+  getHello(@Payload() payload: { id: string }): string {
+    console.log('EXTRATO: ', payload.id);
+    return 'EXTRATO';
   }
 }

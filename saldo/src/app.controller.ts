@@ -1,29 +1,33 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
+  constructor(private appService: AppService) {}
+
   @MessagePattern({ cmd: 'get-saldo' })
-  getSaldo(@Payload() payload: {id: string}) {
-    console.log('GET SALDO');
-    return [];
+  async getSaldo(@Payload() payload: { id: number }) {
+    return await this.appService.getSaldo(payload.id);
   }
 
-  @EventPattern('update-saldo')
-  updateSaldo(@Payload() payload: {id: string}) {
-    console.log('UPDATE SALDO');
-    return [];
+  @EventPattern('make-transaction')
+  makeTransaction(
+    @Payload() payload: { tipo: string; valor: number; saldoId: number },
+  ) {
+    console.log('EVENT: make-transaction');
+    this.appService.makeTransaction(payload);
   }
 
   @EventPattern('create-saldo')
-  createSaldo(@Payload() payload: {id: string}) {
-    console.log('CREATE SALDO');
-    return [];
+  createSaldo() {
+    console.log('EVENT: create-saldo');
+    this.appService.createSaldo();
   }
 
-  @EventPattern('delete-saldo')
-  deleteSaldo(@Payload() payload: {id: string}) {
-    console.log('DELETE SALDO');
-    return [];
+  @EventPattern('cancel-transaction')
+  deleteTransaction(@Payload() payload: { id: number }) {
+    console.log('EVENT: cancel-transaction')
+    this.appService.cancelTransaction(payload.id);
   }
 }
