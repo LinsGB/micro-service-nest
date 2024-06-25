@@ -15,10 +15,10 @@ export class TransactionController {
   }
 
   @Delete(':id')
-  deleteTransaction(
+  cancelTransaction(
     @Param('id')
     id: string,
   ) {
-    return this.transactionService.deletTransaction(id);
+    return this.transactionService.cancelTransaction(id);
   }
 }

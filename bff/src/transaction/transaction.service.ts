@@ -13,7 +13,7 @@ export class TransactionService {
     return { message: 'Ordem de transação enviada' };
   }
 
-  deletTransaction(id: string) {
+  cancelTransaction(id: string) {
     this.rabbitClient.emit('cancel-transaction', { id: +id });
     return { message: 'Ordem de cancelamento enviada' };
   }
