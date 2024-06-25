@@ -35,9 +35,9 @@ describe('AppController', () => {
       mockPrisma.transacoes.findMany.mockImplementationOnce(() => transactions);
 
       expect(await appService.getTransactions(id)).toBe(transactions);
-      expect(mockPrisma.transacoes.findMany).toHaveBeenCalledTimes(+id);
+      expect(mockPrisma.transacoes.findMany).toHaveBeenCalledTimes(1);
       expect(mockPrisma.transacoes.findMany).toHaveBeenCalledWith({
-        where: { saldoId: 1 },
+        where: { saldoId: +id },
       });
     });
   });
