@@ -27,7 +27,7 @@ export class AppController {
 
   @EventPattern('cancel-transaction')
   deleteTransaction(@Payload() payload: { id: number }) {
-    console.log('EVENT: cancel-transaction')
-    this.appService.cancelTransaction(payload.id);
+    console.log('EVENT: cancel-transaction');
+    this.appService.deleteTransaction(payload.id);
   }
 }

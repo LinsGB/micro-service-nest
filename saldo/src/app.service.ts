@@ -62,7 +62,7 @@ export class AppService {
     });
   }
 
-  async cancelTransaction(
+  async deleteTransaction(
     id: number,
     recursiviDeletedTransaction?: {
       id: number;
@@ -109,7 +109,7 @@ export class AppService {
           console.warn(
             'Verção alterada no processo, refazendo o fluxo (Lock Optimista)',
           );
-          await this.cancelTransaction(id, deletedTransaction);
+          await this.deleteTransaction(id, deletedTransaction);
         });
     });
   }
