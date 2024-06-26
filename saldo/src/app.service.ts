@@ -16,7 +16,7 @@ export class AppService {
   async makeTransaction(
     data: {
       tipo: string;
-      valor: number;
+      valor: string;
       saldoId: number;
     },
     recursivity?: boolean,
@@ -27,13 +27,13 @@ export class AppService {
       });
       const newValue =
         data.tipo === 'deposito'
-          ? saldo.valor + data.valor
-          : saldo.valor - data.valor;
+          ? +saldo.valor + +data.valor
+          : +saldo.valor - +data.valor;
 
       await prisma.saldo
         .update({
           data: {
-            valor: newValue,
+            valor: newValue.toString(),
             vercao: saldo.vercao + 1,
           },
           where: {
@@ -52,7 +52,7 @@ export class AppService {
         await prisma.transacoes.create({
           data: {
             tipo: data.tipo,
-            valor: data.valor,
+            valor: data.valor.toString(),
             saldoId: data.saldoId,
           },
         });
@@ -67,7 +67,7 @@ export class AppService {
     recursiviDeletedTransaction?: {
       id: number;
       tipo: string;
-      valor: number;
+      valor: string;
       saldoId: number;
     },
   ) {
@@ -75,7 +75,7 @@ export class AppService {
       let deletedTransaction: {
         id: number;
         tipo: string;
-        valor: number;
+        valor: string;
         saldoId: number;
       } = recursiviDeletedTransaction;
       if (!recursiviDeletedTransaction) {
@@ -92,12 +92,12 @@ export class AppService {
       });
       const newValue =
         deletedTransaction.tipo === 'deposito'
-          ? saldo.valor - deletedTransaction.valor
-          : saldo.valor + deletedTransaction.valor;
+          ? +saldo.valor - +deletedTransaction.valor
+          : +saldo.valor + +deletedTransaction.valor;
       await prisma.saldo
         .update({
           data: {
-            valor: newValue,
+            valor: newValue.toString(),
             vercao: saldo.vercao + 1,
           },
           where: {
@@ -117,7 +117,7 @@ export class AppService {
   async createSaldo() {
     await this.prisma.saldo.create({
       data: {
-        valor: 0,
+        valor: '0',
         vercao: 0,
       },
     });

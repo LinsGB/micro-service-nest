@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "Saldo" (
     "id" SERIAL NOT NULL,
-    "valor" INTEGER NOT NULL,
+    "valor" TEXT NOT NULL,
     "vercao" INTEGER NOT NULL,
 
     CONSTRAINT "Saldo_pkey" PRIMARY KEY ("id")
@@ -11,7 +11,7 @@ CREATE TABLE "Saldo" (
 CREATE TABLE "Transacoes" (
     "id" SERIAL NOT NULL,
     "tipo" TEXT NOT NULL,
-    "valor" INTEGER NOT NULL,
+    "valor" TEXT NOT NULL,
     "saldoId" INTEGER,
 
     CONSTRAINT "Transacoes_pkey" PRIMARY KEY ("id")

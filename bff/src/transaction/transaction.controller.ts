@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Param, Post } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { CreateUserDto } from './transaction.dto';
+import { TransactionDto } from './transaction.dto';
 
 @Controller('transaction')
 export class TransactionController {
@@ -9,8 +9,9 @@ export class TransactionController {
   @Post()
   makeTransaction(
     @Body()
-    body: CreateUserDto,
+    body: TransactionDto,
   ) {
+    console.log('body', body)
     return this.transactionService.makeTransaction(body);
   }
 

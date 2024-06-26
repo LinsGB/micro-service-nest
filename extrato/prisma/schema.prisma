@@ -11,12 +11,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://postgres:postgres@db:5432/postgres"
 }
 
 model Saldo {
   id     Int     @default(autoincrement()) @id
-  valor  Int
+  valor  String
   vercao Int     @unique()
   transacoes  Transacoes[]
 }
@@ -24,7 +24,7 @@ model Saldo {
 model Transacoes {
   id        Int      @default(autoincrement()) @id
   tipo      String
-  valor     Int
+  valor     String
   author    Saldo?    @relation(fields: [saldoId], references: [id])
   saldoId   Int?
 }

@@ -13,7 +13,7 @@ export class AppController {
 
   @EventPattern('make-transaction')
   makeTransaction(
-    @Payload() payload: { tipo: string; valor: number; saldoId: number },
+    @Payload() payload: { tipo: string; valor: string; saldoId: number },
   ) {
     console.log('EVENT: make-transaction');
     this.appService.makeTransaction(payload);
