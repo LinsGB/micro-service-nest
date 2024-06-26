@@ -10,7 +10,7 @@ import { Transport, ClientsModule } from '@nestjs/microservices';
         name: 'SALDO_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
+          urls: ['amqp://rabbitmq:5672'],
           queue: 'saldo-queue',
         },
       },

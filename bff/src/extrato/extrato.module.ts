@@ -11,11 +11,11 @@ import { Transport } from '@nestjs/microservices';
         name: 'EXTRATO_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
+          urls: ['amqp://rabbitmq:5672'],
           queue: 'extrato-queue',
           queueOptions: {
-            durable: true
-          }
+            durable: true,
+          },
         },
       },
     ]),

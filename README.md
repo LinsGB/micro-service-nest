@@ -1,0 +1,2 @@
+- DOCKER_BUILDKIT=1 docker compose up -d
+- Stop rabbitmq if stays up fuser -k 5672/tcp 

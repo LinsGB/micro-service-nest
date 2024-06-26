@@ -1,14 +1,59 @@
-version: '3.8'
+version: "3.8"
 
 services:
- rabbitmq:
-   image: rabbitmq:3-management
-   container_name: rabbitmq-my
-   ports:
-     - "5672:5672"
-     - "15672:15672"
-   volumes:
-     - rabbitmq_data:/var/lib/rabbitmq
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+  db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=pgadmin4
+    ports:
+      - '5050:80'
+    depends_on:
+      - db
+  # provider:
+  #   container_name: provider
+  #   build:
+  #     context: ./bff
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - '3000:3000'
+  #   depends_on:
+  #     - db
+  #     - rabbitmq
+  extrato-consumer:
+    container_name: extrato-consumer
+    build:
+      context: ./extrato
+      dockerfile: Dockerfile
+    depends_on:
+      - provider
+  saldo-consumer:
+    container_name: saldo-consumer
+    build:
+      context: ./saldo
+      dockerfile: Dockerfile
+    depends_on:
+      - provider
 
 volumes:
- rabbitmq_data:
+  rabbitmq_data:
