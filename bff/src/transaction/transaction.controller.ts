@@ -16,7 +16,7 @@ export class TransactionController {
     return this.transactionService.makeTransaction(body);
   }
 
-  @Patch('refund/:id')
+  @Patch(':id/refund')
   @ApiOperation({ summary: 'Solicita reembolso' })
   refaund(
     @Param('id')
