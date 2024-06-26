@@ -14,7 +14,12 @@ export class TransactionService {
   }
 
   cancelTransaction(id: string) {
-    this.rabbitClient.emit('cancel-transaction', { id: +id });
+    this.rabbitClient.emit('delete-transaction', { id: +id });
     return { message: 'Ordem de cancelamento enviada' };
+  }
+
+  refaund(id: string) {
+    this.rabbitClient.emit('refund-transaction', { id: +id });
+    return { message: 'Ordem de reembolso enviada' };
   }
 }

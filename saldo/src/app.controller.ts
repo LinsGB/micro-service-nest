@@ -25,9 +25,15 @@ export class AppController {
     this.appService.createSaldo();
   }
 
-  @EventPattern('cancel-transaction')
+  @EventPattern('delete-transaction')
   deleteTransaction(@Payload() payload: { id: number }) {
-    console.log('EVENT: cancel-transaction');
+    console.log('EVENT: delete-transaction');
     this.appService.deleteTransaction(payload.id);
+  }
+
+  @EventPattern('refund-transaction')
+  refundTransaction(@Payload() payload: { id: number }) {
+    console.log('EVENT: refund-transaction');
+    this.appService.refundTransaction(payload.id);
   }
 }

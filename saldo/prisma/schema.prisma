@@ -27,4 +27,5 @@ model Transacoes {
   valor     String
   author    Saldo?    @relation(fields: [saldoId], references: [id])
   saldoId   Int?
+  status    String
 }

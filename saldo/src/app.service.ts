@@ -26,7 +26,7 @@ export class AppService {
         where: { id: data.saldoId },
       });
       const newValue =
-        data.tipo === 'deposito'
+        data.tipo === 'DEPOSITO'
           ? +saldo.valor + +data.valor
           : +saldo.valor - +data.valor;
 
@@ -43,7 +43,7 @@ export class AppService {
         })
         .catch(() => {
           console.warn(
-            'Verção alterada no processo, refazendo o fluxo (Lock Optimista)',
+            'Versão alterada no processo, refazendo o fluxo (Lock Optimista)',
           );
           this.makeTransaction(data, true);
         });
@@ -54,6 +54,7 @@ export class AppService {
             tipo: data.tipo,
             valor: data.valor.toString(),
             saldoId: data.saldoId,
+            status: 'EXECUTADA',
           },
         });
       }
@@ -91,7 +92,7 @@ export class AppService {
         },
       });
       const newValue =
-        deletedTransaction.tipo === 'deposito'
+        deletedTransaction.tipo === 'DEPOSITO'
           ? +saldo.valor - +deletedTransaction.valor
           : +saldo.valor + +deletedTransaction.valor;
       await prisma.saldo
@@ -107,9 +108,76 @@ export class AppService {
         })
         .catch(async () => {
           console.warn(
-            'Verção alterada no processo, refazendo o fluxo (Lock Optimista)',
+            'Versão alterada no processo, refazendo o fluxo (Lock Optimista)',
           );
           await this.deleteTransaction(id, deletedTransaction);
+        });
+    });
+  }
+
+  async refundTransaction(
+    id: number,
+    recursiviDeletedTransaction?: {
+      id: number;
+      tipo: string;
+      valor: string;
+      saldoId: number;
+    },
+  ) {
+    await this.prisma.$transaction(async (prisma) => {
+      let updatedTransaction: {
+        id: number;
+        tipo: string;
+        valor: string;
+        saldoId: number;
+      } = recursiviDeletedTransaction;
+
+      if (!recursiviDeletedTransaction) {
+        try {
+          updatedTransaction = await prisma.transacoes.update({
+            where: {
+              id,
+              OR: [
+                {
+                  tipo: 'TRANSFERENCIA',
+                },
+                {
+                  tipo: 'COMPRA',
+                },
+              ],
+            },
+            data: {
+              status: 'REMBOLSADO',
+            },
+          });
+        } catch (error) {
+          console.error(error);
+          return;
+        }
+      }
+
+      const saldo = await prisma.saldo.findUnique({
+        where: {
+          id: updatedTransaction.saldoId,
+        },
+      });
+      const newValue = +saldo.valor + +updatedTransaction.valor;
+      await prisma.saldo
+        .update({
+          data: {
+            valor: newValue.toString(),
+            vercao: saldo.vercao + 1,
+          },
+          where: {
+            id: saldo.id,
+            vercao: saldo.vercao,
+          },
+        })
+        .catch(async () => {
+          console.warn(
+            'Versão alterada no processo, refazendo o fluxo (Lock Optimista)',
+          );
+          await this.deleteTransaction(id, updatedTransaction);
         });
     });
   }
