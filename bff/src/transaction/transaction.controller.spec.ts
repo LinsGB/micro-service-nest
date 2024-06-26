@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionController } from './transaction.controller';
 import { TransactionService } from './transaction.service';
+import { TransactionDto } from './transaction.dto';
 
 class MockTransactionService {
   makeTransaction = jest.fn();
@@ -26,10 +27,10 @@ describe('TransactionController', () => {
   describe('makeTransaction', () => {
     it('should call makeTransaction of transactionService', () => {
       const response = 'response';
-      const payload = {
+      const payload: TransactionDto = {
         saldoId: 1,
-        tipo: 'deposito',
-        valor: 1000,
+        tipo: 'DEPOSITO',
+        valor: '1000',
       };
 
       service.makeTransaction.mockReturnValueOnce(response);

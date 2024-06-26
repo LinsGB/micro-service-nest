@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TransactionService } from './transaction.service';
+import { TransactionDto } from './transaction.dto';
 
 class MockClientProxy {
   emit = jest.fn();
@@ -26,7 +27,11 @@ describe('TransactionService', () => {
 
   describe('makeTransaction', () => {
     it('should emit and return a valid mensage', () => {
-      const payload = { saldoId: 1, tipo: 'deposito', valor: 1000 };
+      const payload: TransactionDto = {
+        saldoId: 1,
+        tipo: 'DEPOSITO',
+        valor: '1000',
+      };
 
       expect(service.makeTransaction(payload)).toEqual({
         message: 'Ordem de transação enviada',
@@ -49,7 +54,7 @@ describe('TransactionService', () => {
       });
 
       expect(mockClientProxy.emit).toHaveBeenCalledTimes(1);
-      expect(mockClientProxy.emit).toHaveBeenCalledWith('cancel-transaction', {
+      expect(mockClientProxy.emit).toHaveBeenCalledWith('delete-transaction', {
         id: +id,
       });
     });
