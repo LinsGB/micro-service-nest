@@ -45,8 +45,8 @@ describe('AppController', () => {
     it('should call makeTransaction of appService', async () => {
       const payload = {
         saldoId: 1,
-        tipo: 'deposito',
-        valor: 1000,
+        tipo: 'DEPOSITO',
+        valor: '1000',
       };
 
       appController.makeTransaction(payload);

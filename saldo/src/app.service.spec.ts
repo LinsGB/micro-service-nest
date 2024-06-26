@@ -52,11 +52,12 @@ describe('AppController', () => {
     it('should update saldo and create transaction', async () => {
       const payload = {
         saldoId: 1,
-        tipo: 'deposito',
-        valor: 1000,
+        tipo: 'DEPOSITO',
+        valor: '1000',
+        status: 'EXECUTADA',
       };
       const saldo = {
-        valor: 100,
+        valor: '100',
         vercao: 2,
       };
 
@@ -78,11 +79,12 @@ describe('AppController', () => {
     it('should recieve error on update and call again the make transaction', async () => {
       const payload = {
         saldoId: 1,
-        tipo: 'deposito',
-        valor: 1000,
+        tipo: 'DEPOSITO',
+        valor: '1000',
+        status: 'EXECUTADA',
       };
       const saldo = {
-        valor: 100,
+        valor: '100',
         vercao: 2,
       };
 
