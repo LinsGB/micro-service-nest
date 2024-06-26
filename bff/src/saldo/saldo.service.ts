@@ -13,6 +13,6 @@ export class SaldoService {
 
   async createSaldo() {
     this.rabbitClient.emit('create-saldo', {});
-    return { message: 'Saldo Criado' };
+    return { message: 'Ordem de criação de saldo enviada' };
   }
 }

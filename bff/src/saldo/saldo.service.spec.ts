@@ -38,7 +38,7 @@ describe('SaldoService', () => {
   describe('createSaldo', () => {
     it('should emit and return a valid mensage', async () => {
       expect(await service.createSaldo()).toEqual({
-        message: 'Saldo Criado',
+        message: 'Ordem de criação de saldo enviada',
       });
 
       expect(mockClientProxy.emit).toHaveBeenCalledTimes(1);
