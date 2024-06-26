@@ -50,7 +50,15 @@ logue com as credênciais:
     login: admin@admin.com
     senha: pgadmin4
 
-copie a query do arquivo migration.sql na raiz do projeto e execute dentro do PG Admin.
+Adiciona um novo 'server': Click no botão 'Add New Server'
+Na aba connection altere as configurações:
+    'Host name/address': db
+    'Username': postgres
+    'Password': postgres
+Salve
+
+Na aba de 'Tools' selecione a opção 'Query Tool'
+Copie a query do arquivo migration.sql na raiz do projeto e execute dentro do PG Admin.
 ```
 
 #### Prisma:
