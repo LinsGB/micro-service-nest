@@ -13,6 +13,7 @@ CREATE TABLE "Transacoes" (
     "tipo" TEXT NOT NULL,
     "valor" TEXT NOT NULL,
     "saldoId" INTEGER,
+    "status" TEXT NOT NULL,
 
     CONSTRAINT "Transacoes_pkey" PRIMARY KEY ("id")
 );
